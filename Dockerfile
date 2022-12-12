@@ -7,15 +7,11 @@ USER root
 
 # Install additional applications
 RUN apt-get update && \
-apt-get install -y curl && \
-curl https://sh.rustup.rs -sSf | sh -s -- -y && \
-source "$HOME/.cargo/env"
+apt-get install -y curl build-essential && \
+curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 # Add .cargo/bin to PATH
 ENV PATH="/home/jovyan/.cargo/bin:${PATH}"
-
-# Check cargo is visible
-RUN cargo --help
 
 # Install additional python modules
 COPY requirements.txt /opt/app/requirements.txt
