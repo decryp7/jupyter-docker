@@ -21,19 +21,16 @@ RUN apt-get update \
         zlib1g \
 && rm -rf /var/lib/apt/lists/*
 
-# Add .cargo/bin to PATH
-ENV PATH="/home/jovyan/.cargo/bin:${PATH}"
-
 # Install additional python modules
 COPY requirements.txt /opt/app/requirements.txt
 WORKDIR /opt/app
 RUN pip install -r requirements.txt
 
 # Install .NET
-ENV DOTNET_VERSION=6.0.0
+ENV DOTNET_VERSION=7.0.0
 
 RUN curl -fSL --output dotnet.tar.gz https://dotnetcli.azureedge.net/dotnet/Runtime/$DOTNET_VERSION/dotnet-runtime-$DOTNET_VERSION-linux-x64.tar.gz \
-    && dotnet_sha512='6a1ae878efdc9f654e1914b0753b710c3780b646ac160fb5a68850b2fd1101675dc71e015dbbea6b4fcf1edac0822d3f7d470e9ed533dd81d0cfbcbbb1745c6c' \
+    && dotnet_sha512='f4a6e9d5fec7d390c791f5ddaa0fcda386a7ec36fe2dbaa6acb3bdad38393ca1f9d984dd577a081920c3cae3d511090a2f2723cc5a79815309f344b8ccce6488' \
     && echo "$dotnet_sha512 dotnet.tar.gz" | sha512sum -c - \
     && mkdir -p /usr/share/dotnet \
     && tar -zxf dotnet.tar.gz -C /usr/share/dotnet \
