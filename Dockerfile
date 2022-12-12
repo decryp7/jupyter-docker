@@ -5,12 +5,11 @@ LABEL maintainer="decryp7 <decrypt@decryptology.net>"
 
 USER root
 
-ENV PATH="/root/.cargo/bin:$PATH"
-
 # Install additional applications
 RUN apt-get update && \
 apt-get install -y curl && \
-curl https://sh.rustup.rs -sSf | sh -s -- -y
+curl https://sh.rustup.rs -sSf | sh -s -- -y &&\
+$HOME/.cargo/env
 
 # Install additional python modules
 COPY requirements.txt /opt/app/requirements.txt
