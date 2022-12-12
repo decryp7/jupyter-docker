@@ -39,8 +39,6 @@ RUN apt-get update \
   libssl3 \
   libstdc++6 \
   zlib1g \
-  nodejs \
-  npm \
   && rm -rf /var/lib/apt/lists/*
 
 # Install nodejs
