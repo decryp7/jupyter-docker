@@ -15,14 +15,7 @@ COPY requirements.txt /opt/app/requirements.txt
 WORKDIR /opt/app
 RUN pip install -r requirements.txt
 
-# Create conda env
-RUN conda create --name evcxr
-
-# Make RUN commands use the new environment
-SHELL ["conda", "run", "-n", "evcxr", "/bin/bash", "-c"]
-
 # Install rustlang kernel
-RUN conda activate evcxr && \
 conda install -y -c conda-forge nb_conda_kernels && \
 cargo install evcxr_jupyter && \
 evcxr_jupyter --install
