@@ -1,7 +1,14 @@
-ARG BASE_CONTAINER=jupyter/minimal-notebook
-FROM $BASE_CONTAINER
+FROM jupyter/base-notebook:ubuntu-22.04
 
 LABEL maintainer="decryp7 <decrypt@decryptology.net>"
+
+ARG NB_USER=jovyan
+ARG NB_UID=1000
+ENV USER ${NB_USER}
+ENV NB_UID ${NB_UID}
+ENV HOME /home/${NB_USER}
+
+WORKDIR ${HOME}
 
 USER root
 
@@ -61,6 +68,8 @@ RUN echo "\
   <disabledPackageSources />\
   </configuration>\
   " > ${HOME}/NuGet.config
+
+RUN chown -R ${NB_UID} ${HOME}
 
 # Switch back to jovyan to avoid accidental container runs as root
 USER ${NB_UID}
