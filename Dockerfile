@@ -49,6 +49,11 @@ RUN curl -L https://dot.net/v1/dotnet-install.sh | bash -e -s -- --install-dir /
 # Trigger first run experience by running arbitrary command
 RUN dotnet help
 
+# Install GO
+COPY --from=golang:1 /usr/local/go/ /usr/local/go/
+ENV PATH="/usr/local/go/bin:${PATH}"
+RUN go version
+
 RUN chown -R ${NB_UID} ${HOME}
 
 # Switch back to jovyan to avoid accidental container runs as root
