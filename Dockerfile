@@ -69,9 +69,6 @@ COPY requirements.txt ${HOME}/requirements.txt
 RUN pip install -r requirements.txt \
 && rm requirements.txt
 
-# Install C kernel
-RUN install_c_kernel
-
 # Install itypescript kernel
 RUN its --install=local
 
