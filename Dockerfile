@@ -72,6 +72,10 @@ RUN go install github.com/gopherdata/gophernotes@v0.7.5 \
 && chmod +w ./kernel.json # in case copied kernel.json has no write permission \
 && sed "s|gophernotes|$(go env GOPATH)/bin/gophernotes|" < kernel.json.in > kernel.json
 
+# Install C++ kernel
+RUN conda install xeus-cling -c conda-forge \
+&& conda install xeus -c conda-forge
+
 # Install rust
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 ENV PATH="$HOME/.cargo/bin:$PATH"
