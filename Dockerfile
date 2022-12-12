@@ -5,19 +5,62 @@ LABEL maintainer="decryp7 <decrypt@decryptology.net>"
 
 USER root
 
+ENV \
+  # Enable detection of running in a container
+  DOTNET_RUNNING_IN_CONTAINER=true \
+  # Enable correct mode for dotnet watch (only mode supported in a container)
+  DOTNET_USE_POLLING_FILE_WATCHER=true \
+  # Skip extraction of XML docs - generally not useful within an image/container - helps performance
+  NUGET_XMLDOC_MODE=skip \
+  # Opt out of telemetry until after we install jupyter when building the image, this prevents caching of machine id
+  DOTNET_INTERACTIVE_CLI_TELEMETRY_OPTOUT=true
+
 # Install additional applications
 RUN apt-get update \
-&& DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
 && apt-get install -y \
 	wget \
 	curl \
-	build-essential \
-#&& wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb \
-#&& dpkg -i packages-microsoft-prod.deb \
-#&& rm packages-microsoft-prod.deb \
-&& apt-get update \
-&& apt-get install -y dotnet-sdk-6.0 \
-&& rm -rf /var/lib/apt/lists/*
+	build-essential
+
+# Install .NET CLI dependencies
+RUN apt-get update \
+  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+  libc6 \
+  libgcc1 \
+  libgssapi-krb5-2 \
+  libicu70 \
+  libssl3 \
+  libstdc++6 \
+  zlib1g \
+  && rm -rf /var/lib/apt/lists/*
+
+# Install the appropriate dotnet SDK
+ENV DOTNET_SDK_VERSION 7.0.100
+RUN curl -L https://dot.net/v1/dotnet-install.sh | bash -e -s -- --install-dir /usr/share/dotnet --version $DOTNET_SDK_VERSION \
+  && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
+
+# Trigger first run experience by running arbitrary command
+RUN dotnet help
+
+# Add package sources
+RUN echo "\
+  <configuration>\
+  <solution>\
+  <add key=\"disableSourceControlIntegration\" value=\"true\" />\
+  </solution>\
+  <packageSources>\
+  <clear />\
+  <add key=\"dotnet-experimental\" value=\"https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-experimental/nuget/v3/index.json\" />\
+  <add key=\"dotnet-public\" value=\"https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-public/nuget/v3/index.json\" />\
+  <add key=\"dotnet-eng\" value=\"https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-eng/nuget/v3/index.json\" />\
+  <add key=\"dotnet-tools\" value=\"https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-tools/nuget/v3/index.json\" />\
+  <add key=\"dotnet-libraries\" value=\"https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-libraries/nuget/v3/index.json\" />\
+  <add key=\"dotnet5\" value=\"https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json\" />\
+  <add key=\"MachineLearning\" value=\"https://pkgs.dev.azure.com/dnceng/public/_packaging/MachineLearning/nuget/v3/index.json\" />\
+  </packageSources>\
+  <disabledPackageSources />\
+  </configuration>\
+  " > ${HOME}/NuGet.config
 
 # Switch back to jovyan to avoid accidental container runs as root
 USER ${NB_UID}
@@ -38,6 +81,6 @@ RUN conda install -y -c conda-forge nb_conda_kernels \
 
 # Install dotnet kernel
 ENV PATH="$HOME/.dotnet/tools:$PATH"
-RUN dotnet tool install -g Microsoft.dotnet-interactive \
+RUN dotnet tool install -g Microsoft.dotnet-interactive --add-source "https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-tools/nuget/v3/index.json" \
 && dotnet interactive jupyter install \
 && echo "export PATH=${PATH}" >> $HOME/.bashrc
