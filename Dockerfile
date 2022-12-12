@@ -32,4 +32,4 @@ RUN conda install -y -c conda-forge nb_conda_kernels \
 && evcxr_jupyter --install
 
 # Install dotnet kernel
-dotnet interactive jupyter install
+RUN dotnet interactive jupyter install
