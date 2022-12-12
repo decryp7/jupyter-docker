@@ -21,11 +21,6 @@ RUN apt-get update \
         zlib1g \
 && rm -rf /var/lib/apt/lists/*
 
-# Install additional python modules
-COPY requirements.txt /opt/app/requirements.txt
-WORKDIR /opt/app
-RUN pip install -r requirements.txt
-
 # Install .NET
 ENV DOTNET_VERSION=7.0.0
 
@@ -37,16 +32,22 @@ RUN curl -fSL --output dotnet.tar.gz https://dotnetcli.azureedge.net/dotnet/Runt
     && rm dotnet.tar.gz \
     && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
 
-# Install rustlang kernel
-#RUN conda install -y -c conda-forge nb_conda_kernels \
-#&& cargo install evcxr_jupyter \
-#&& evcxr_jupyter --install
-
-# Install additional kernels
-
 # Switch back to jovyan to avoid accidental container runs as root
 USER ${NB_UID}
 
+# Install .NET Kernel
+RUN dotnet interactive jupyter install
+
+# Install additional python modules
+COPY requirements.txt /opt/app/requirements.txt
+WORKDIR /opt/app
+RUN pip install -r requirements.txt
+
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
-&& source "$HOME/.cargo/env" \
-&& cargo --help
+&& source "$HOME/.cargo/env"
+
+# Install rustlang kernel
+RUN conda install -y -c conda-forge nb_conda_kernels \
+&& cargo install evcxr_jupyter \
+&& evcxr_jupyter --install
+
