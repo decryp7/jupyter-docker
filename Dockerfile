@@ -76,7 +76,7 @@ RUN dotnet tool install -g Microsoft.dotnet-interactive --add-source "https://pk
 USER root
 
 # Set PATH for all users
-RUN echo "export PATH=$PATH" > /etc/environment
+RUN echo "PATH="${PATH}"" >> /etc/environment
 
 USER ${NB_UID}
 
