@@ -13,7 +13,12 @@ RUN pip install -r requirements.txt
 # Install rustlang kernel
 RUN apt-get update && \
 apt-get install -y curl && \
-curl https://sh.rustup.rs -sSf | sh -s -- -y
+curl https://sh.rustup.rs -sSf | sh -s -- -y && \
+conda create --name evcxr && \
+conda activate evcxr && \
+conda install -y -c conda-forge nb_conda_kernels && \
+cargo install evcxr_jupyter && \
+evcxr_jupyter --install
 
 # Install additional kernels
 
