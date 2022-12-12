@@ -6,7 +6,7 @@ LABEL maintainer="decryp7 <decrypt@decryptology.net>"
 USER root
 
 # Install additional kernels
-pip install -r requirements.txt
+RUN pip install -r requirements.txt
 
 # Switch back to jovyan to avoid accidental container runs as root
 USER ${NB_UID}
