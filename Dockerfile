@@ -73,7 +73,4 @@ ENV PATH="$HOME/.dotnet/tools:$PATH"
 RUN dotnet tool install -g Microsoft.dotnet-interactive --add-source "https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-tools/nuget/v3/index.json" \
 && dotnet interactive jupyter install
 
-# Set PATH for all users
-RUN echo "export PATH=$PATH" >> ~/.bashrc
-
 WORKDIR ${HOME}
