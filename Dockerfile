@@ -11,7 +11,7 @@ RUN apt-get update \
 && apt-get install -y \
 	curl \
 	build-essential \
-	dotnet-sdk-7.0 \
+	dotnet-sdk-6.0 \
 && rm -rf /var/lib/apt/lists/*
 
 # Switch back to jovyan to avoid accidental container runs as root
