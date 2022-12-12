@@ -13,7 +13,7 @@ RUN pip install -r requirements.txt
 # Install rustlang kernel
 RUN apt-get update && \
 apt-get install -y curl && \
-curl https://sh.rustup.rs -sSf | sh sh -s -- -y
+curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 # Install additional kernels
 
