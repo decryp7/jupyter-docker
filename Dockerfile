@@ -19,7 +19,7 @@ RUN apt-get update \
         libssl1.1 \
         libstdc++6 \
         zlib1g \
-&& rm -rf /var/lib/apt/lists/*
+&& rm -rf /var/lib/apt/lists/* \
 && curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 # Add .cargo/bin to PATH
