@@ -19,6 +19,12 @@ RUN apt-get update \
 && apt-get install -y dotnet-sdk-7.0 \
 && rm -rf /var/lib/apt/lists/*
 
+# Install dotnet kernel
+ENV PATH="$HOME/.dotnet/tools:$PATH"
+RUN dotnet tool install -g Microsoft.dotnet-interactive \
+&& dotnet interactive jupyter install \
+&& echo "export PATH=${PATH}" >> $HOME/.bashrc
+
 # Switch back to jovyan to avoid accidental container runs as root
 USER ${NB_UID}
 
@@ -35,9 +41,3 @@ ENV PATH="$HOME/.cargo/bin:$PATH"
 RUN conda install -y -c conda-forge nb_conda_kernels \
 && cargo install evcxr_jupyter \
 && evcxr_jupyter --install
-
-# Install dotnet kernel
-ENV PATH="$HOME/.dotnet/tools:$PATH"
-RUN dotnet tool install -g Microsoft.dotnet-interactive \
-&& dotnet interactive jupyter install \
-&& echo "export PATH=${PATH}" >> $HOME/.bashrc
