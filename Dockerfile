@@ -5,6 +5,8 @@ LABEL maintainer="decryp7 <decrypt@decryptology.net>"
 
 USER root
 
+ENV PATH="/root/.cargo/bin:$PATH"
+
 # Install additional applications
 RUN apt-get update && \
 apt-get install -y curl && \
