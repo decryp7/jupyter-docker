@@ -18,7 +18,7 @@ steps:
     path: /var/run/docker.sock
   commands:
   - docker login docker.decryptology.net -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-  - docker build -t docker.decryptology.net/decryptology/jupyter-notebook:latest .
+  - docker build --no-cache -t docker.decryptology.net/decryptology/jupyter-notebook:latest .
   - docker push docker.decryptology.net/decryptology/jupyter-notebook:latest
 
 volumes:
