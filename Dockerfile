@@ -12,7 +12,7 @@ curl https://sh.rustup.rs -sSf | sh -s -- -y && \
 source "$HOME/.cargo/env"
 
 # Add .cargo/bin to PATH
-ENV PATH="/root/.cargo/bin:${PATH}"
+ENV PATH="/home/jovyan/.cargo/bin:${PATH}"
 
 # Check cargo is visible
 RUN cargo --help
