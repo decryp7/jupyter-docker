@@ -9,9 +9,13 @@ USER root
 RUN apt-get update \
 && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
 && apt-get install -y \
+	wget \
 	curl \
 	build-essential \
-	dotnet-sdk-6.0 \
+&& wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb \
+&& dpkg -i packages-microsoft-prod.deb \
+&& rm packages-microsoft-prod.deb \
+&& apt-get install -y dotnet-sdk-7.0 \
 && rm -rf /var/lib/apt/lists/*
 
 # Switch back to jovyan to avoid accidental container runs as root
