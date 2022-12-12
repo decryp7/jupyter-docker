@@ -22,9 +22,9 @@ COPY requirements.txt /opt/app/requirements.txt
 WORKDIR /opt/app
 RUN pip install -r requirements.txt
 
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
-&& source "$HOME/.cargo/env" \
-&& cargo --help
+# Install rust
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+ENV PATH="/home/jovyan/.cargo/bin:${PATH}"
 
 # Install rustlang kernel
 RUN conda install -y -c conda-forge nb_conda_kernels \
