@@ -5,16 +5,20 @@ LABEL maintainer="decryp7 <decrypt@decryptology.net>"
 
 USER root
 
+# Install additional applications
+RUN apt-get update && \
+apt-get install -y curl && \
+curl https://sh.rustup.rs -sSf | sh -s -- -y
+
 # Install additional python modules
 COPY requirements.txt /opt/app/requirements.txt
 WORKDIR /opt/app
 RUN pip install -r requirements.txt
 
+SHELL ["conda", "run", "-n", "myenv", "/bin/bash", "-c"]
+
 # Install rustlang kernel
-RUN apt-get update && \
-apt-get install -y curl && \
-curl https://sh.rustup.rs -sSf | sh -s -- -y && \
-conda create --name evcxr && \
+RUN conda create --name evcxr && \
 conda activate evcxr && \
 conda install -y -c conda-forge nb_conda_kernels && \
 cargo install evcxr_jupyter && \
