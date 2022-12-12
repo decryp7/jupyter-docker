@@ -34,10 +34,10 @@ WORKDIR /opt/app
 RUN pip install -r requirements.txt
 
 # Install rust
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
-ENV PATH="$HOME/.cargo/bin:$PATH"
+#RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+#ENV PATH="$HOME/.cargo/bin:$PATH"
 
 # Install rustlang kernel
-RUN conda install -y -c conda-forge nb_conda_kernels \
-&& cargo install evcxr_jupyter \
-&& evcxr_jupyter --install
+#RUN conda install -y -c conda-forge nb_conda_kernels \
+#&& cargo install evcxr_jupyter \
+#&& evcxr_jupyter --install
