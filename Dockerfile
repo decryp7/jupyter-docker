@@ -49,34 +49,13 @@ RUN curl -L https://dot.net/v1/dotnet-install.sh | bash -e -s -- --install-dir /
 # Trigger first run experience by running arbitrary command
 RUN dotnet help
 
-# Add package sources
-RUN echo "\
-  <configuration>\
-  <solution>\
-  <add key=\"disableSourceControlIntegration\" value=\"true\" />\
-  </solution>\
-  <packageSources>\
-  <clear />\
-  <add key=\"dotnet-experimental\" value=\"https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-experimental/nuget/v3/index.json\" />\
-  <add key=\"dotnet-public\" value=\"https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-public/nuget/v3/index.json\" />\
-  <add key=\"dotnet-eng\" value=\"https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-eng/nuget/v3/index.json\" />\
-  <add key=\"dotnet-tools\" value=\"https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-tools/nuget/v3/index.json\" />\
-  <add key=\"dotnet-libraries\" value=\"https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-libraries/nuget/v3/index.json\" />\
-  <add key=\"dotnet5\" value=\"https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json\" />\
-  <add key=\"MachineLearning\" value=\"https://pkgs.dev.azure.com/dnceng/public/_packaging/MachineLearning/nuget/v3/index.json\" />\
-  </packageSources>\
-  <disabledPackageSources />\
-  </configuration>\
-  " > ${HOME}/NuGet.config
-
 RUN chown -R ${NB_UID} ${HOME}
 
 # Switch back to jovyan to avoid accidental container runs as root
 USER ${NB_UID}
 
 # Install additional python modules
-COPY requirements.txt /opt/app/requirements.txt
-WORKDIR /opt/app
+COPY requirements.txt ${HOME}/requirements.txt
 RUN pip install -r requirements.txt
 
 # Install rust
@@ -91,5 +70,6 @@ RUN conda install -y -c conda-forge nb_conda_kernels \
 # Install dotnet kernel
 ENV PATH="$HOME/.dotnet/tools:$PATH"
 RUN dotnet tool install -g Microsoft.dotnet-interactive --add-source "https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-tools/nuget/v3/index.json" \
-&& dotnet interactive jupyter install \
-&& echo "export PATH=${PATH}" >> $HOME/.bashrc
+&& dotnet interactive jupyter install
+
+WORKDIR ${HOME}
