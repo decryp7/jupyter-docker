@@ -1,3 +1,4 @@
+nteract_on_jupyter
 matplotlib
 numpy
 pandas
