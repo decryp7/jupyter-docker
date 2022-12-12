@@ -10,6 +10,9 @@ COPY requirements.txt /opt/app/requirements.txt
 WORKDIR /opt/app
 RUN pip install -r requirements.txt
 
+# Install rustlang kernel
+RUN curl https://sh.rustup.rs -sSf | sh
+
 # Install additional kernels
 
 # Switch back to jovyan to avoid accidental container runs as root
