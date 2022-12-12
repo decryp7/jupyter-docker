@@ -23,7 +23,7 @@ WORKDIR /opt/app
 RUN pip install -r requirements.txt
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
-&& source "$HOME/.cargo/env"
+&& source "$HOME/.cargo/env" \
 && cargo --help
 
 # Install rustlang kernel
