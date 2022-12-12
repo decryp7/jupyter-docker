@@ -56,7 +56,8 @@ USER ${NB_UID}
 
 # Install additional python modules
 COPY requirements.txt ${HOME}/requirements.txt
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt \
+&& rm requirements.txt
 
 # Install rust
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
@@ -71,5 +72,8 @@ RUN conda install -y -c conda-forge nb_conda_kernels \
 ENV PATH="$HOME/.dotnet/tools:$PATH"
 RUN dotnet tool install -g Microsoft.dotnet-interactive --add-source "https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-tools/nuget/v3/index.json" \
 && dotnet interactive jupyter install
+
+# Set PATH for all users
+RUN echo "export PATH=$PATH" > /etc/environment
 
 WORKDIR ${HOME}
