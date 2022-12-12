@@ -37,7 +37,6 @@ RUN conda install -y -c conda-forge nb_conda_kernels \
 && evcxr_jupyter --install
 
 # Install dotnet kernel
-ENV PATH="$PATH:$HOME/.dotnet/tools"
+ENV PATH="$HOME/.dotnet/tools:$PATH"
 RUN dotnet tool install -g Microsoft.dotnet-interactive \
-&& dotnet interactive jupyter install \
-&& echo "export PATH=/new/path:${PATH}" >> $HOME/.bashrc
+&& dotnet interactive jupyter install
