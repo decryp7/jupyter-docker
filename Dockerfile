@@ -39,4 +39,5 @@ RUN conda install -y -c conda-forge nb_conda_kernels \
 # Install dotnet kernel
 ENV PATH="$PATH:$HOME/.dotnet/tools"
 RUN dotnet tool install -g Microsoft.dotnet-interactive \
-&& dotnet interactive jupyter install
+&& dotnet interactive jupyter install \
+&& echo "export PATH=/new/path:${PATH}" >> $HOME/.bashrc
