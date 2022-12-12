@@ -21,22 +21,8 @@ RUN apt-get update \
         zlib1g \
 && rm -rf /var/lib/apt/lists/*
 
-# Install .NET
-ENV DOTNET_VERSION=7.0.0
-
-RUN curl -fSL --output dotnet.tar.gz https://dotnetcli.azureedge.net/dotnet/Runtime/$DOTNET_VERSION/dotnet-runtime-$DOTNET_VERSION-linux-x64.tar.gz \
-    && dotnet_sha512='f4a6e9d5fec7d390c791f5ddaa0fcda386a7ec36fe2dbaa6acb3bdad38393ca1f9d984dd577a081920c3cae3d511090a2f2723cc5a79815309f344b8ccce6488' \
-    && echo "$dotnet_sha512 dotnet.tar.gz" | sha512sum -c - \
-    && mkdir -p /usr/share/dotnet \
-    && tar -zxf dotnet.tar.gz -C /usr/share/dotnet \
-    && rm dotnet.tar.gz \
-    && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
-
 # Switch back to jovyan to avoid accidental container runs as root
 USER ${NB_UID}
-
-# Install .NET Kernel
-RUN dotnet interactive jupyter install
 
 # Install additional python modules
 COPY requirements.txt /opt/app/requirements.txt
