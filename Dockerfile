@@ -29,7 +29,7 @@ RUN pip install -r requirements.txt
 
 # Install rust
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
-ENV PATH="$HOME/.cargo/bin:${PATH}"
+ENV PATH="$HOME/.cargo/bin:$PATH"
 
 # Install rustlang kernel
 RUN conda install -y -c conda-forge nb_conda_kernels \
@@ -37,6 +37,6 @@ RUN conda install -y -c conda-forge nb_conda_kernels \
 && evcxr_jupyter --install
 
 # Install dotnet kernel
-ENV PATH="${PATH}:$HOME/.dotnet/tools"
+ENV PATH="$PATH:$HOME/.dotnet/tools"
 RUN dotnet tool install -g Microsoft.dotnet-interactive \
 && dotnet interactive jupyter install
