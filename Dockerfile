@@ -49,7 +49,7 @@ RUN curl -L https://dot.net/v1/dotnet-install.sh | bash -e -s -- --install-dir /
 # Trigger first run experience by running arbitrary command
 RUN dotnet help
 
-# Install GO
+# Install golang
 COPY --from=golang:1 /usr/local/go/ /usr/local/go/
 ENV PATH="/usr/local/go/bin:${PATH}"
 RUN go version
@@ -63,6 +63,14 @@ USER ${NB_UID}
 COPY requirements.txt ${HOME}/requirements.txt
 RUN pip install -r requirements.txt \
 && rm requirements.txt
+
+# Install golang kernel
+RUN go install github.com/gopherdata/gophernotes@v0.7.5 \
+&& mkdir -p ~/.local/share/jupyter/kernels/gophernotes
+&& cd ~/.local/share/jupyter/kernels/gophernotes
+&& cp "$(go env GOPATH)"/pkg/mod/github.com/gopherdata/gophernotes@v0.7.5/kernel/*  "."
+&& chmod +w ./kernel.json # in case copied kernel.json has no write permission
+&& sed "s|gophernotes|$(go env GOPATH)/bin/gophernotes|" < kernel.json.in > kernel.json
 
 # Install rust
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
