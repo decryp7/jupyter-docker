@@ -39,7 +39,14 @@ RUN apt-get update \
   libssl3 \
   libstdc++6 \
   zlib1g \
+  nodejs \
+  npm \
   && rm -rf /var/lib/apt/lists/*
+
+# Install nodejs
+RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash - \
+&& apt-get install -y nodejs \
+&& npm install -g itypescript
 
 # Install the appropriate dotnet SDK
 ENV DOTNET_SDK_VERSION 7.0.100
@@ -63,6 +70,9 @@ USER ${NB_UID}
 COPY requirements.txt ${HOME}/requirements.txt
 RUN pip install -r requirements.txt \
 && rm requirements.txt
+
+# Install itypescript kernel
+RUN its --install=local
 
 # Install golang kernel
 RUN go install github.com/gopherdata/gophernotes@v0.7.5 \
