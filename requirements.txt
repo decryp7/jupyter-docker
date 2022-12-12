@@ -1,3 +1,4 @@
+jupyter-c-kernel
 nteract_on_jupyter
 matplotlib
 numpy
