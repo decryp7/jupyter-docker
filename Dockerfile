@@ -74,6 +74,7 @@ RUN pip install -r requirements.txt \
 RUN its --install=local
 
 # Install golang kernel
+ENV PATH="$HOME/go/bin:$PATH"
 RUN go install github.com/gopherdata/gophernotes@v0.7.5 \
 && mkdir -p ~/.local/share/jupyter/kernels/gophernotes \
 && cd ~/.local/share/jupyter/kernels/gophernotes \
