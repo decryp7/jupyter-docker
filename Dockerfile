@@ -27,11 +27,11 @@ RUN apt-get update \
 && apt-get install -y \
 	wget \
 	curl \
-	build-essential
+	build-essential \
+  git
 
 # Install .NET CLI dependencies
-RUN apt-get update \
-  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
   libc6 \
   libgcc1 \
   libgssapi-krb5-2 \
