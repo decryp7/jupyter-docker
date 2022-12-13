@@ -100,6 +100,7 @@ RUN dotnet tool install -g Microsoft.dotnet-interactive --add-source "https://pk
 && dotnet interactive jupyter install
 
 # Install Kotlin kernel
+ENV PATH="/usr/lib/jvm/java-11-openjdk-amd64/jre/bin:$PATH"
 RUN conda install kotlin-jupyter-kernel -c jetbrains
 
 WORKDIR ${HOME}
