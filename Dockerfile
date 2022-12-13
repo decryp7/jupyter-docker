@@ -70,6 +70,9 @@ COPY requirements.txt ${HOME}/requirements.txt
 RUN pip install -r requirements.txt \
 && rm requirements.txt
 
+# Install additional extensions
+RUN conda install -c conda-forge jupyterlab-git
+
 # Install itypescript kernel
 RUN its --install=local
 
