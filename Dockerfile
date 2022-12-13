@@ -39,6 +39,7 @@ RUN apt-get update \
   libssl3 \
   libstdc++6 \
   zlib1g \
+  openjdk-8-jre \
   && rm -rf /var/lib/apt/lists/*
 
 # Install nodejs
@@ -97,5 +98,8 @@ RUN conda install -y -c conda-forge nb_conda_kernels \
 ENV PATH="$HOME/.dotnet/tools:$PATH"
 RUN dotnet tool install -g Microsoft.dotnet-interactive --add-source "https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-tools/nuget/v3/index.json" \
 && dotnet interactive jupyter install
+
+# Install Kotlin kernel
+RUN conda install kotlin-jupyter-kernel -c jetbrains
 
 WORKDIR ${HOME}
