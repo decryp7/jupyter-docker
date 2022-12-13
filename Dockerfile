@@ -39,7 +39,7 @@ RUN apt-get update \
   libssl3 \
   libstdc++6 \
   zlib1g \
-  openjdk-8-jre \
+  openjdk-11-jre \
   && rm -rf /var/lib/apt/lists/*
 
 # Install nodejs

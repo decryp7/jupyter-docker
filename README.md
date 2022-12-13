@@ -6,3 +6,4 @@ Jupyter docker image built with the following kernels,
 3. C++
 4. Rustlang
 5. .Net
+6. Kotlin
