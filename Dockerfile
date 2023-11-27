@@ -100,7 +100,7 @@ RUN conda install -y -c conda-forge nb_conda_kernels \
 
 # Install dotnet kernel
 ENV PATH="$HOME/.dotnet/tools:$PATH"
-RUN dotnet tool install -g Microsoft.dotnet-interactive --add-source "https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-tools/nuget/v3/index.json" \
+RUN dotnet tool install -g Microsoft.dotnet-interactive \
 && dotnet interactive jupyter install
 
 # Install Kotlin kernel
