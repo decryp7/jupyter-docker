@@ -1,4 +1,4 @@
-FROM jupyter/base-notebook:ubuntu-22.04
+FROM jupyter/base-notebook:latest
 
 LABEL maintainer="decryp7 <decrypt@decryptology.net>"
 
