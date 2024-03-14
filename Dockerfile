@@ -1,4 +1,4 @@
-FROM jupyter/base-notebook:latest
+FROM quay.io/jupyter/base-notebook:latest
 
 LABEL maintainer="decryp7 <decrypt@decryptology.net>"
 
