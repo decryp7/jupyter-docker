@@ -35,7 +35,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
   libc6 \
   libgcc1 \
   libgssapi-krb5-2 \
-  libicu70 \
+  libicu74 \
   libssl3 \
   libstdc++6 \
   zlib1g \
