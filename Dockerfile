@@ -43,7 +43,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 
 # Install nodejs
-RUN apt-get install -y nodejs \
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+&& apt-get install -y nodejs \
 && npm install -g itypescript
 
 # Install the latest LTS dotnet SDK
