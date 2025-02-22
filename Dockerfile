@@ -48,7 +48,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
 && npm install -g itypescript
 
 # Install the latest LTS dotnet SDK
-RUN curl -L https://dot.net/v1/dotnet-install.sh | bash -e -s -- --install-dir /usr/share/dotnet \
+RUN curl -L https://dot.net/v1/dotnet-install.sh | bash -e -s -- --install-dir /usr/share/dotnet --version latest \
   && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
 
 # Trigger first run experience by running arbitrary command
