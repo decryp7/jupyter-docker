@@ -55,7 +55,7 @@ RUN curl -L https://dot.net/v1/dotnet-install.sh | bash -e -s -- --install-dir /
 RUN dotnet help
 
 # Install golang
-COPY --from=golang:1 /usr/local/go/ /usr/local/go/
+COPY --from=mirror.gcr.io/golang:1 /usr/local/go/ /usr/local/go/
 ENV PATH="/usr/local/go/bin:${PATH}"
 RUN go version
 
