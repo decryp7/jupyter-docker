@@ -70,7 +70,7 @@ RUN pip install -r requirements.txt \
 && rm requirements.txt
 
 # Install additional extensions
-RUN conda install python=3.12 -c conda-forge jupyterlab-git
+RUN conda install -c conda-forge jupyterlab-git
 
 # Install itypescript kernel
 RUN its --install=local
@@ -85,15 +85,15 @@ RUN go install github.com/gopherdata/gophernotes@v0.7.5 \
 && sed "s|gophernotes|$(go env GOPATH)/bin/gophernotes|" < kernel.json.in > kernel.json
 
 # Install C++ kernel
-RUN conda install python=3.12 xeus-cling -c conda-forge \
-&& conda install python=3.12 xeus -c conda-forge
+RUN conda install xeus-cling -c conda-forge \
+&& conda install xeus -c conda-forge
 
 # Install rust
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 ENV PATH="$HOME/.cargo/bin:$PATH"
 
 # Install rustlang kernel
-RUN conda python=3.12 install -y -c conda-forge nb_conda_kernels \
+RUN conda install -y -c conda-forge nb_conda_kernels \
 && cargo install evcxr_jupyter \
 && evcxr_jupyter --install
 
@@ -104,6 +104,6 @@ RUN dotnet tool install -g Microsoft.dotnet-interactive \
 
 # Install Kotlin kernel
 ENV PATH="/usr/lib/jvm/java-11-openjdk-amd64/jre/bin:$PATH"
-RUN conda python=3.12 install kotlin-jupyter-kernel -c jetbrains
+RUN conda install kotlin-jupyter-kernel -c jetbrains
 
 WORKDIR ${HOME}
